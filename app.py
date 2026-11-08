@@ -11,7 +11,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# 2. Premium 3D Theme & Glow CSS Injection
+# 2. Advanced CSS: Proportional Metric Cards & Dynamic 3D Matrix Rain Effects
 st.markdown("""
 <style>
     @keyframes fadeIn {
@@ -100,25 +100,25 @@ pakistan_cities_db = {
     "Islamabad Capital Territory": {
         "coords": [33.6844, 73.0479], "risk": "MODERATE", "risk_color": "#F59E0B", "sar": "STANDBY", 
         "threat": "22.4 / 100", "desc": "Urban drainage channels operating at baseline thresholds.", "has_rain": True,
-        "hydro_flow": [120, 140, 135, 190, 210, 180, 160],
+        "hydro_flow":,
         "temp": "17°C", "humidity": "64%", "wind": "4 mph", "temps": ["24°C","23°C","23°C","19°C","19°C","21°C","22°C"], "icons": ["☁️","⛅","☀️","🌧️","🌦️","☀️","☁️"]
     },
     "Nowshera (KPK River Node)": {
         "coords": [34.0105, 71.9866], "risk": "CRITICAL SURGE", "risk_color": "#EF4444", "sar": "ACTIVE FEED", 
         "threat": "88.6 / 100", "desc": "Kabul River discharge tracking near peak boundaries.", "has_rain": True,
-        "hydro_flow": [450, 490, 520, 680, 710, 640, 590],
+        "hydro_flow":,
         "temp": "19°C", "humidity": "58%", "wind": "6 mph", "temps": ["26°C","25°C","24°C","20°C","21°C","23°C","24°C"], "icons": ["☀️","☀️","⛅","🌧️","☁️","☀️","☀️"]
     },
     "Sukkur (Sindh Indus Node)": {
         "coords": [27.7244, 68.8228], "risk": "ELEVATED ALERT", "risk_color": "#F59E0B", "sar": "ACTIVE FEED", 
         "threat": "61.2 / 100", "desc": "Sukkur Barrage telemetry tracking normal baseline variations.", "has_rain": False,
-        "hydro_flow": [310, 340, 320, 410, 430, 390, 360],
+        "hydro_flow":,
         "temp": "26°C", "humidity": "42%", "wind": "5 mph", "temps": ["32°C","31°C","31°C","30°C","30°C","29°C","29°C"], "icons": ["☀️","☀️","☀️","☀️","☀️","☀️","☀️"]
     },
     "Rajanpur (South Punjab)": {
         "coords": [29.1044, 70.3250], "risk": "HIGH RISK", "risk_color": "#EF4444", "sar": "MONITORING", 
         "threat": "79.4 / 100", "desc": "Hill torrent tracking layers monitoring active catchment vectors.", "has_rain": False,
-        "hydro_flow": [220, 260, 290, 380, 410, 350, 310],
+        "hydro_flow":,
         "temp": "23°C", "humidity": "48%", "wind": "3 mph", "temps": ["30°C","29°C","29°C","27°C","26°C","27°C","28°C"], "icons": ["☀️","☀️","☀️","⛅","☁️","☀️","☀️"]
     }
 }
@@ -173,7 +173,7 @@ with col3:
             <span class="pulse-ring" style="background-color: #0DF5C4; box-shadow: 0 0 0 0 rgba(13,245,196,0.7);"></span>
             <span class="card-value" style="color: #0DF5C4;">{active_node_data['threat']}</span>
         </div>
-        <p class="card-desc" style="margin-top: 6px;">AI structural structural loss engine scanning building assets.</p>
+        <p class="card-desc" style="margin-top: 6px;">AI loss assessment mapping model actively rendering structural perimeters.</p>
     </div>
     """, unsafe_allow_html=True)
 
@@ -198,17 +198,14 @@ for idx, col in enumerate(days_cols):
         """, unsafe_allow_html=True)
 st.write("---")
 
-# =========================================================
-# 9. NEW ADVANCED FEATURES: Plotly Hydro-Chart & Dark Matter Map Layouts
-# =========================================================
+# 9. ADVANCED FEATURES: Plotly Hydro-Chart & Fixed Dark Matter Map Layouts
 st.markdown("### 📊 Live River Flow Water Discharge Data & Geospatial Telemetry")
 
-chart_col, map_col = st.columns([1, 1])
+chart_col, map_col = st.columns(2)
 
 with chart_col:
     st.markdown("##### 📈 Real-Time Water Flow Spline Volume (Cusecs)")
     
-    # Custom Glowing Spline Area Chart using Plotly Engine
     fig = go.Figure()
     fig.add_trace(go.Scatter(
         x=days_list, y=active_node_data["hydro_flow"],
@@ -229,20 +226,17 @@ with chart_col:
 with map_col:
     st.markdown(f"##### 🗺️ Operational Geospatial Grid Map")
     
-    # 100% Free Open-Source Dark Map configuration (Wipes away API Key Required warnings)
     map_center = active_node_data["coords"]
     m = folium.Map(
         location=map_center, 
         zoom_start=11, 
-        tiles="https://{s}://{z}/{x}/{y}{r}.png",
+        tiles="https://{s}://{z}/{x}/{y}.png",
         attr='&copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors &copy; <a href="https://carto.com">CARTO</a>'
     )
     
-    # Custom vibrant indicator marker layer
     folium.CircleMarker(
         location=map_center, radius=12, popup=f"{selected_city} Threat Node",
         color="#00F5C4", fill=True, fill_color="#00FFFF", fill_opacity=0.6
     ).add_to(m)
     
-    st_folium(m, width=650, height=400, key=f"dark_map_viewport_sync_{selected_city.lower().replace(' ', '_')}")
-
+    st_folium(m, width=650, height=400, key=f"dark_map_viewport_fixed_{selected_city.lower().replace(' ', '_')}_{map_center}")
