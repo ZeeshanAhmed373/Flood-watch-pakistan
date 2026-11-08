@@ -74,9 +74,21 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # 3. Sidebar Configuration with a Fixed, High-Quality Banner Image
-st.sidebar.image("https://unsplash.com", use_column_width=True)
+# 3. Sidebar Configuration & City Selector
+st.sidebar.markdown("""
+<div style="text-align: center; margin-bottom: 20px;">
+    <svg viewBox="0 0 24 24" width="80" height="80" stroke="#0D9488" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" style="filter: drop-shadow(0px 0px 8px rgba(13,148,136,0.5));">
+        <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path>
+        <path d="M12 6v6l4 2"></path>
+    </svg>
+    <h4 style="color: #64FFDA; margin-top: 10px; font-weight: 700; letter-spacing: 1px;">FloodWatch AI Node</h4>
+</div>
+""", unsafe_allow_html=True)
+
 st.sidebar.header("🌍 Navigation Matrix")
-region = st.sidebar.selectbox("Target Basin/District", ["Kabul River Basin", "Indus Delta", "Rajanpur Zone"])
+selected_city = st.sidebar.selectbox("Select Target City", ["Islamabad", "Nowshera", "Sukkur", "Rajanpur", "Karachi", "Lahore"])
+region = st.sidebar.selectbox("Target Basin/District Zone", ["Kabul River Basin", "Indus Delta", "Rajanpur Zone"])
+
 
 # 4. Clean Master Titles
 st.title("🌊 FloodWatch AI")
