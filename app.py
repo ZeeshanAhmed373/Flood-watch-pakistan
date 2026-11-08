@@ -59,7 +59,7 @@ st.markdown("""
         color: #64FFDA;
     }
 </style>
-""", unsafe_allow_index=True)
+""", unsafe_allow_html=True)
 
 # 3. Dynamic Side Navigation Header
 st.sidebar.image("https://unsplash.com", use_column_width=True)
