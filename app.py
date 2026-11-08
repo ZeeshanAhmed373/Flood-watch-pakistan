@@ -53,7 +53,7 @@ st.markdown("""
         70% { box-shadow: 0 0 0 8px rgba(239, 68, 68, 0); }
         100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
     }
-    .card-desc { margin: 0; font-size: 12.5px; color: #CBD5E1; line-height: 1.3; }
+    .text-description-box { margin: 0; font-size: 12.5px; color: #CBD5E1; line-height: 1.3; }
 
     /* Weather Matrix Slider */
     .weather-box-container {
@@ -95,30 +95,30 @@ st.sidebar.markdown("""
 """, unsafe_allow_html=True)
 
 st.sidebar.header("🌍 National Matrix")
-# 4. Regional Database Matrix (Numbers successfully filled)
+# 4. Regional Climate Database Matrix
 pakistan_cities_db = {
     "Islamabad Capital Territory": {
         "coords": [33.6844, 73.0479], "risk": "MODERATE", "risk_color": "#F59E0B", "sar": "STANDBY", 
         "threat": "22.4 / 100", "desc": "Urban drainage channels operating at baseline thresholds.", "has_rain": True,
-        "hydro_flow": [120, 140, 135, 190, 220, 185, 160],
+        "hydro_flow":,
         "temp": "17°C", "humidity": "64%", "wind": "4 mph", "temps": ["24°C","23°C","23°C","19°C","19°C","21°C","22°C"], "icons": ["☁️","⛅","☀️","🌧️","🌦️","☀️","☁️"]
     },
     "Nowshera (KPK River Node)": {
         "coords": [34.0105, 71.9866], "risk": "CRITICAL SURGE", "risk_color": "#EF4444", "sar": "ACTIVE FEED", 
         "threat": "88.6 / 100", "desc": "Kabul River discharge tracking near peak boundaries.", "has_rain": True,
-        "hydro_flow": [450, 510, 490, 680, 720, 640, 590],
+        "hydro_flow":,
         "temp": "19°C", "humidity": "58%", "wind": "6 mph", "temps": ["26°C","25°C","24°C","20°C","21°C","23°C","24°C"], "icons": ["☀️","☀️","⛅","🌧️","☁️","☀️","☀️"]
     },
     "Sukkur (Sindh Indus Node)": {
         "coords": [27.7244, 68.8228], "risk": "ELEVATED ALERT", "risk_color": "#F59E0B", "sar": "ACTIVE FEED", 
         "threat": "61.2 / 100", "desc": "Sukkur Barrage telemetry tracking normal baseline variations.", "has_rain": False,
-        "hydro_flow": [280, 295, 310, 305, 320, 315, 290],
+        "hydro_flow":,
         "temp": "26°C", "humidity": "42%", "wind": "5 mph", "temps": ["32°C","31°C","31°C","30°C","30°C","29°C","29°C"], "icons": ["☀️","☀️","☀️","☀️","☀️","☀️","☀️"]
     },
     "Rajanpur (South Punjab)": {
         "coords": [29.1044, 70.3250], "risk": "HIGH RISK", "risk_color": "#EF4444", "sar": "MONITORING", 
         "threat": "79.4 / 100", "desc": "Hill torrent tracking layers monitoring active catchment vectors.", "has_rain": False,
-        "hydro_flow": [190, 210, 240, 310, 340, 290, 260],
+        "hydro_flow":,
         "temp": "23°C", "humidity": "48%", "wind": "3 mph", "temps": ["30°C","29°C","29°C","27°C","26°C","27°C","28°C"], "icons": ["☀️","☀️","☀️","⛅","☁️","☀️","☀️"]
     }
 }
@@ -151,7 +151,7 @@ with col1:
             <span class="pulse-ring" style="background-color: {active_node_data['risk_color']}; box-shadow: 0 0 0 0 {active_node_data['risk_color']};"></span>
             <span class="card-value" style="color: {active_node_data['risk_color']};">{active_node_data['risk']}</span>
         </div>
-        <p class="card-desc" style="margin-top: 6px;">{active_node_data['desc']}</p>
+        <p class="text-description-box" style="margin-top: 6px;">{active_node_data['desc']}</p>
     </div>
     """, unsafe_allow_html=True)
 with col2:
@@ -162,7 +162,7 @@ with col2:
             <span class="pulse-ring" style="background-color: #64FFDA; box-shadow: 0 0 0 0 rgba(100,255,218,0.7);"></span>
             <span class="card-value" style="color: #64FFDA;">{active_node_data['sar']}</span>
         </div>
-        <p class="card-desc" style="margin-top: 6px;">Copernicus Sentinel orbit telemetry aligned perfectly.</p>
+        <p class="text-description-box" style="margin-top: 6px;">Copernicus Sentinel orbit telemetry aligned perfectly.</p>
     </div>
     """, unsafe_allow_html=True)
 with col3:
@@ -173,7 +173,7 @@ with col3:
             <span class="pulse-ring" style="background-color: #0DF5C4; box-shadow: 0 0 0 0 rgba(13,245,196,0.7);"></span>
             <span class="card-value" style="color: #0DF5C4;">{active_node_data['threat']}</span>
         </div>
-        <p class="card-desc" style="margin-top: 6px;">AI loss assessment mapping model actively rendering structural perimeters.</p>
+        <p class="text-description-box" style="margin-top: 6px;">AI structural loss assessment engine scanning building assets.</p>
     </div>
     """, unsafe_allow_html=True)
 
@@ -198,7 +198,7 @@ for idx, col in enumerate(days_cols):
         """, unsafe_allow_html=True)
 st.write("---")
 
-# 9. ADVANCED FEATURES: Plotly Hydro-Chart & Fixed Dark Matter Map Layouts
+# 9. ADVANCED FEATURES: Plotly Hydro-Chart & Reliable Stadia Dark Map Node
 st.markdown("### 📊 Live River Flow Water Discharge Data & Geospatial Telemetry")
 
 chart_col, map_col = st.columns(2)
@@ -227,16 +227,18 @@ with map_col:
     st.markdown(f"##### 🗺️ Operational Geospatial Grid Map")
     
     map_center = active_node_data["coords"]
+    
+    # 100% Free Account-Free Stadia Alidade Smooth Dark Configuration Block
     m = folium.Map(
         location=map_center, 
         zoom_start=11, 
-        tiles="https://{s}://{z}/{x}/{y}.png",
-        attr='&copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors &copy; <a href="https://carto.com">CARTO</a>'
+        tiles="https://stadiamaps.com{z}/{x}/{y}{r}.png",
+        attr='&copy; <a href="https://stadiamaps.com">Stadia Maps</a> &copy; <a href="https://openmaptiles.org">OpenMapTiles</a> &copy; <a href="https://openstreetmap.org">OpenStreetMap</a>'
     )
     
     folium.CircleMarker(
-        location=map_center, radius=12, popup=f"{selected_city} Threat Node",
+        location=map_center, radius=12, popup=f"{selected_city} Active Operational Threat Node",
         color="#00F5C4", fill=True, fill_color="#00FFFF", fill_opacity=0.6
     ).add_to(m)
     
-    st_folium(m, width=650, height=400, key=f"dark_map_viewport_fixed_{selected_city.lower().replace(' ', '_')}_{map_center}")
+    st_folium(m, width=650, height=400, key=f"stadia_dark_map_node_{selected_city.lower().replace(' ', '_')}_{map_center[0]}")
