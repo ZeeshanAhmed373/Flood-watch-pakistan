@@ -166,7 +166,7 @@ with w_col2:
 with w_col3:
     st.metric(label="💨 Wind Speed Metrics", value=active_data["wind"])
 
-# Build the layout template inside a SINGLE Markdown rendering call to fix the layout string bug
+# Build the layout template inside a SINGLE string to fix the HTML text bug
 timeline_html = '<div class="weather-flex-box">'
 for forecast_day in active_data["forecast"]:
     timeline_html += f"""
@@ -179,7 +179,7 @@ for forecast_day in active_data["forecast"]:
     """
 timeline_html += '</div>'
 
-# CRITICAL FIX: Use st.markdown ONCE to prevent printing raw strings on your timeline container loop
+# Render the entire horizontal slider cleanly at once using a single call
 st.markdown(timeline_html, unsafe_allow_html=True)
 st.write("---")
 
@@ -199,5 +199,5 @@ folium.CircleMarker(
     fill_opacity=0.7
 ).add_to(m)
 
-# CRITICAL FIX: Pass an explicit dynamic key string to force st_folium to re-render the view box dynamically
+# Pass an explicit dynamic key string to force st_folium to re-render the view box dynamically
 st_folium(m, width=1300, height=520, key=f"map_render_{selected_city}")
