@@ -241,9 +241,10 @@ with map_col:
     m = folium.Map(
     location=map_center, 
     zoom_start=11, 
-    tiles="https://{s}://{z}/{x}/{y}.png",
-    attr='&copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors &copy; <a href="https://carto.com">CARTO</a>'
+    tiles="https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png",
+    attr='&copy; OpenStreetMap contributors, CyclOSM'
     )
+
 
     
     folium.CircleMarker(
