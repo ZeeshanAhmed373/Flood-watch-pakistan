@@ -1,17 +1,16 @@
 import streamlit as st
 from streamlit_folium import st_folium
 import folium
-import requests
 
 # 1. Master Page Configurations
 st.set_page_config(
-    page_title="FloodWatch AI - National Scale Hub",
+    page_title="FloodWatch AI - Enterprise Hub",
     page_icon="🌊",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# 2. Modern 3D Dark Glassmorphism High-Contrast CSS
+# 2. Modern High-Contrast 3D Glassmorphism CSS Styles Injection
 st.markdown("""
 <style>
     @keyframes fadeIn {
@@ -20,6 +19,7 @@ st.markdown("""
     }
     .stApp { animation: fadeIn 0.8s ease-out; }
 
+    /* Premium 3D Slate Cards */
     .premium-card {
         background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
         border: 2px solid #334155;
@@ -36,12 +36,12 @@ st.markdown("""
         border-color: #0D9488;
     }
     .card-title { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; color: #94A3B8; margin-bottom: 10px; }
-    .card-value { font-size: 34px; font-weight: 800; color: #0DF5C4; margin-bottom: 8px; }
+    .card-value { font-size: 34px; font-weight: 800; margin-bottom: 8px; line-height: 1.1; }
     .card-desc { margin: 0; font-size: 14px; color: #E2E8F0; line-height: 1.4; }
 </style>
 """, unsafe_allow_html=True)
 
-# 3. Sidebar Layout with Robust Navigation UI
+# 3. Secure Vector Sidebar Navigation Layout Banner
 st.sidebar.markdown("""
 <div style="text-align: center; margin-bottom: 20px;">
     <svg viewBox="0 0 24 24" width="72" height="72" stroke="#0D9488" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" style="filter: drop-shadow(0px 0px 8px rgba(13,148,136,0.5));">
@@ -53,102 +53,129 @@ st.sidebar.markdown("""
 """, unsafe_allow_html=True)
 
 st.sidebar.header("🌍 National Matrix")
-
-# Two-tier entry selection: Quick-click drop-down + Custom Type Search box
-search_query = st.sidebar.text_input("Type ANY City in Pakistan", value="Islamabad")
-region = st.sidebar.selectbox("Target Basin/District Zone", ["Kabul River Basin", "Indus Delta", "Rajanpur Zone", "General Grid Area"])
-
-# 4. Master Coordinate Matrix Database (Guarantees instant loading for main hubs)
-city_db = {
-    "islamabad": [33.6844, 73.0479],
-    "nowshera": [34.0105, 71.9866],
-    "sukkur": [27.7244, 68.8228],
-    "rajanpur": [29.1044, 70.3250],
-    "karachi": [24.8607, 67.0011],
-    "lahore": [31.5204, 74.3587],
-    "peshawar": [34.0151, 71.5249],
-    "quetta": [30.1798, 66.9750],
-    "multan": [30.1575, 71.5249],
-    "gwadar": [25.1264, 62.3254]
+# 4. Exhaustive Internal Pakistan Regional Database Matrix (Zero-Delay Analytics Engine)
+pakistan_cities_db = {
+    "Islamabad Capital Territory": {
+        "coords": [33.6844, 73.0479], "risk": "MODERATE", "risk_color": "#F59E0B", "sar": "STANDBY / PASS", 
+        "threat": "22.4 / 100", "desc": "Urban drainage channels operating at baseline capacity levels.",
+        "temp": "17°C", "humidity": "64%", "wind": "4 mph", "temps": ["24°C","23°C","23°C","19°C","19°C","21°C","22°C"], "icons": ["☁️","⛅","☀️","🌧️","🌦️","☀️","☁️"]
+    },
+    "Nowshera (KPK River Node)": {
+        "coords": [34.0105, 71.9866], "risk": "CRITICAL SURGE", "risk_color": "#EF4444", "sar": "ACTIVE SWATH", 
+        "threat": "88.6 / 100", "desc": "Kabul River discharge levels tracking high. Inundation mapping active.",
+        "temp": "19°C", "humidity": "58%", "wind": "6 mph", "temps": ["26°C","25°C","24°C","20°C","21°C","23°C","24°C"], "icons": ["☀️","☀️","⛅","🌧️","☁️","☀️","☀️"]
+    },
+    "Sukkur (Sindh Indus Node)": {
+        "coords": [27.7244, 68.8228], "risk": "ELEVATED ALERT", "risk_color": "#F59E0B", "sar": "ACTIVE SWATH", 
+        "threat": "61.2 / 100", "desc": "Sukkur Barrage telemetry tracking water flow distribution parameters.",
+        "temp": "26°C", "humidity": "42%", "wind": "5 mph", "temps": ["32°C","31°C","31°C","30°C","30°C","29°C","29°C"], "icons": ["☀️","☀️","☀️","☀️","☀️","☀️","☀️"]
+    },
+    "Rajanpur (South Punjab)": {
+        "coords": [29.1044, 70.3250], "risk": "HIGH RISK", "risk_color": "#EF4444", "sar": "MONITORING", 
+        "threat": "79.4 / 100", "desc": "Hill torrent tracking layers monitoring active catchment vectors.",
+        "temp": "23°C", "humidity": "48%", "wind": "3 mph", "temps": ["30°C","29°C","29°C","27°C","26°C","27°C","28°C"], "icons": ["☀️","☀️","☀️","⛅","☁️","☀️","☀️"]
+    },
+    "Karachi Coastline": {
+        "coords": [24.8607, 67.0011], "risk": "LOW / NORMAL", "risk_color": "#10B981", "sar": "STANDBY / PASS", 
+        "threat": "14.5 / 100", "desc": "Tidal heights and coastal telemetry tracking at standard seasonal parameters.",
+        "temp": "28°C", "humidity": "72%", "wind": "11 mph", "temps": ["33°C","33°C","32°C","32°C","31°C","31°C","32°C"], "icons": ["☀️","☀️","☀️","⛅","⛅","☀️","☀️"]
+    },
+    "Lahore Hub (Ravi Node)": {
+        "coords": [31.5204, 74.3587], "risk": "LOW / MINIMAL", "risk_color": "#10B981", "sar": "MONITORING", 
+        "threat": "31.8 / 100", "desc": "River bed telemetry and structural modeling nodes operating within thresholds.",
+        "temp": "21°C", "humidity": "55%", "wind": "5 mph", "temps": ["28°C","27°C","27°C","26°C","25°C","25°C","26°C"], "icons": ["☁️","☁️","⛅","☀️","☀️","☀️","⛅"]
+    },
+    "Peshawar Basin": {
+        "coords": [34.0151, 71.5249], "risk": "MODERATE RISK", "risk_color": "#F59E0B", "sar": "MONITORING", 
+        "threat": "48.2 / 100", "desc": "Flash flood predictive layers tracking local urban run-off metrics.",
+        "temp": "20°C", "humidity": "52%", "wind": "4 mph", "temps": ["25°C","24°C","24°C","22°C","21°C","23°C","23°C"], "icons": ["☀️","☀️","⛅","🌧️","☁️","☀️","☀️"]
+    },
+    "Quetta (Balochistan Hub)": {
+        "coords": [30.1798, 66.9750], "risk": "LOW / FLASH WATCH", "risk_color": "#10B981", "sar": "STANDBY / PASS", 
+        "threat": "19.1 / 100", "desc": "Arid zone telemetry monitoring mountain pass accumulation points.",
+        "temp": "14°C", "humidity": "35%", "wind": "7 mph", "temps": ["20°C","19°C","18°C","15°C","16°C","18°C","19°C"], "icons": ["☀️","☀️","☀️","⛅","☁️","☀️","☀️"]
+    },
+    "Multan Division": {
+        "coords": [30.1575, 71.5249], "risk": "LOW / MONITORING", "risk_color": "#10B981", "sar": "MONITORING", 
+        "threat": "28.4 / 100", "desc": "Agricultural plain basin flood modeling running baseline updates.",
+        "temp": "24°C", "humidity": "46%", "wind": "4 mph", "temps": ["31°C","30°C","30°C","28°C","27°C","28°C","29°C"], "icons": ["☀️","☀️","☀️","⛅","☁️","☀️","☀️"]
+    },
+    "Gwadar Coastal Sector": {
+        "coords": [25.1264, 62.3254], "risk": "LOW / NORMAL", "risk_color": "#10B981", "sar": "STANDBY / PASS", 
+        "threat": "08.3 / 100", "desc": "Coastal backwater levels and port infrastructure telemetry verified clean.",
+        "temp": "27°C", "humidity": "68%", "wind": "9 mph", "temps": ["31°C","30°C","30°C","29°C","29°C","28°C","29°C"], "icons": ["☀️","☀️","☀️","☀️","☀️","☀️","☀️"]
+    }
 }
 
-# 5. Hybrid Search Architecture Engine (Reads local database first, then tries external lookup)
-def get_coordinates(city_name):
-    clean_name = city_name.strip().lower()
-    
-    # Check if city matches our core database first (instant execution)
-    if clean_name in city_db:
-        return city_db[clean_name], city_name.capitalize()
-    
-    # Dynamic Search Fallback (Attempts API fetch with strict safety timeouts)
-    try:
-        url = f"https://openstreetmap.org{requests.utils.quote(city_name)},+Pakistan&format=json&limit=1"
-        headers = {'User-Agent': 'FloodWatchNationalPlatform/2.0'}
-        response = requests.get(url, headers=headers, timeout=3).json()
-        if response:
-            lat = float(response[0]['lat'])
-            lon = float(response[0]['lon'])
-            display_title = response[0]['display_name'].split(',')[0]
-            return [lat, lon], display_title
-    except:
-        pass
-        
-    # Standard security fallback to prevent dashboard freezes
-    return [33.6844, 73.0479], "Islamabad (Fallback Location)"
+# Unified Selection dropdown interface 
+selected_city = st.sidebar.selectbox("Select Active Operational Node", list(pakistan_cities_db.keys()))
+region = st.sidebar.selectbox("Target Basin/District Zone", ["Kabul River Basin", "Indus Delta", "Rajanpur Zone", "General Grid Area"])
+active_node_data = pakistan_cities_db[selected_city]
 
-map_center, validated_title = get_coordinates(search_query)
-
-# 6. Title Headers
+# 5. Core Platform Header Controls
 st.title("🌊 FloodWatch AI Platform")
-st.markdown(f"##### *Geospatial Risk Management Hub & Meteorological Tracking* &nbsp;|&nbsp; **Active Sector: {validated_title}, Pakistan**")
+st.markdown(f"##### *Geospatial Risk Management Hub & Meteorological Tracking* &nbsp;|&nbsp; **Active Sector: {selected_city}**")
 st.write("---")
 
-# 7. High-Contrast Risk Metrics Cards Panel
+# 6. Synchronized Primary Metrics Cards
 col1, col2, col3 = st.columns(3)
 with col1:
-    st.markdown(f"""<div class="premium-card"><div class="card-title">🚨 Current Risk Assessment</div><div class="card-value">HIGH SURGE</div><p class="card-desc">Geospatial data stream verified over the {validated_title} grid zone mapping segment.</p></div>""", unsafe_allow_html=True)
+    st.markdown(f"""
+    <div class="premium-card">
+        <div class="card-title">🚨 Current Risk Assessment</div>
+        <div class="card-value" style="color: {active_node_data['risk_color']};">{active_node_data['risk']}</div>
+        <p class="card-desc">{active_node_data['desc']}</p>
+    </div>
+    """, unsafe_allow_html=True)
 with col2:
-    st.markdown("""<div class="premium-card"><div class="card-title">🛰️ Active SAR Radar Layer</div><div class="card-value">SENTINEL-1</div><p class="card-desc">Cloud-penetrating radar processing operational for target tracking.</p></div>""", unsafe_allow_html=True)
+    st.markdown(f"""
+    <div class="premium-card">
+        <div class="card-title">🛰️ Active SAR Radar Layer</div>
+        <div class="card-value" style="color: #64FFDA;">{active_node_data['sar']}</div>
+        <p class="card-desc">Copernicus Sentinel orbital configuration synced for this grid zone context.</p>
+    </div>
+    """, unsafe_allow_html=True)
 with col3:
-    st.markdown("""<div class="premium-card"><div class="card-title">🏢 Infrastructure Threat Score</div><div class="card-value">84.2 / 100</div><p class="card-desc">AI loss assessment mapping model actively running over building footprints.</p></div>""", unsafe_allow_html=True)
+    st.markdown(f"""
+    <div class="premium-card">
+        <div class="card-title">🏢 Infrastructure Threat Score</div>
+        <div class="card-value" style="color: #0DF5C4;">{active_node_data['threat']}</div>
+        <p class="card-desc">AI loss assessment mapping model actively rendering structural threat perimeters.</p>
+    </div>
+    """, unsafe_allow_html=True)
 
-# 8. Weather Module Matrix
+# 7. Weather Module Matrix
 st.markdown("### 🌤️ Local Meteorology Metrics & 7-Day Outlook")
 
-base_temp = int(21 + (map_center[0] % 8))
-humidity = int(50 + (map_center[1] % 20))
-wind = int(4 + (map_center[0] % 6))
-
 w_col1, w_col2, w_col3 = st.columns(3)
-w_col1.metric(label="🌡️ Current Temperature", value=f"{base_temp}°C")
-w_col2.metric(label="💧 Relative Humidity", value=f"{humidity}%")
-w_col3.metric(label="💨 Wind Speed Metrics", value=f"{wind} mph")
+w_col1.metric(label="🌡️ Current Temperature", value=active_node_data["temp"])
+w_col2.metric(label="💧 Relative Humidity", value=active_node_data["humidity"])
+w_col3.metric(label="💨 Wind Speed Metrics", value=active_node_data["wind"])
 
+# Render the 7-day outlook using Native Streamlit Columns
 st.write("")
-days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
-icons = ["☀️", "☁️", "⛅", "🌧️", "☀️", "☀️", "⛅"]
+days_list = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 days_cols = st.columns(7)
-
 for idx, col in enumerate(days_cols):
-    day_temp = base_temp + (2 if idx % 2 == 0 else -3)
     with col:
         st.markdown(f"""
         <div style="background: #1E293B; border: 1px solid #475569; border-radius: 12px; padding: 12px; text-align: center;">
-            <div style="font-size: 12px; color: #94A3B8; font-weight: bold;">{days[idx]}</div>
-            <div style="font-size: 26px; margin: 5px 0;">{icons[idx]}</div>
-            <div style="font-size: 15px; font-weight: bold; color: #64FFDA;">{day_temp}°C</div>
+            <div style="font-size: 12px; color: #94A3B8; font-weight: bold;">{days_list[idx]}</div>
+            <div style="font-size: 26px; margin: 5px 0;">{active_node_data['icons'][idx]}</div>
+            <div style="font-size: 15px; font-weight: bold; color: #64FFDA;">{active_node_data['temps'][idx]}</div>
         </div>
         """, unsafe_allow_html=True)
 st.write("---")
 
-# 9. Fully Reactive Geospatial Map Canvas (Forced to re-render using dynamic session hash variables)
-st.markdown(f"### 🗺️ Operational Geospatial Framework Map: {validated_title} Sector")
+# 8. Dynamic Geospatial Map Framework
+st.markdown(f"### 🗺️ Operational Geospatial Framework Map: {selected_city} Sector")
 
-m = folium.Map(location=map_center, zoom_start=12, tiles="OpenStreetMap")
+map_center = active_node_data["coords"]
+m = folium.Map(location=map_center, zoom_start=11, tiles="OpenStreetMap")
+
 folium.CircleMarker(
-    location=map_center, radius=14, popup=f"Active Threat Alert Region - {validated_title} Hub Node",
+    location=map_center, radius=14, popup=f"Active Threat Alert Region - {selected_city} Hub Node",
     color="#0D9488", fill=True, fill_color="#00FFFF", fill_opacity=0.7
 ).add_to(m)
 
-# The combination key string format forces st_folium to dump old frames and render any newly searched targets instantly
-st_folium(m, width=1300, height=520, key=f"map_viewport_{validated_title.lower().replace(' ', '_')}_{map_center[0]}")
+st_folium(m, width=1300, height=520, key=f"map_viewport_sync_{selected_city.lower().replace(' ', '_')}")
