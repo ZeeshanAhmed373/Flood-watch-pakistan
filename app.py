@@ -238,13 +238,13 @@ with chart_col:
 
 with map_col:
     st.markdown(f"##### 🗺️ Operational Geospatial Grid Map")
-    
-    m = folium.Map(
+        m = folium.Map(
         location=map_center, 
         zoom_start=11, 
-        tiles="https://stadiamaps.com{z}/{x}/{y}.png?api_key=",
-        attr='&copy; <a href="https://stadiamaps.com">Stadia Maps</a> &copy; <a href="https://openmaptiles.org">OpenMapTiles</a> &copy; <a href="https://openstreetmap.org">OpenStreetMap</a>'
+        tiles="https://{s}://{z}/{x}/{y}.png",
+        attr='&copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors &copy; <a href="https://carto.com">CARTO</a>'
     )
+
     
     folium.CircleMarker(
         location=map_center, radius=12, popup=f"{selected_city} Active Operational Threat Node",
