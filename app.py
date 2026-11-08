@@ -242,7 +242,7 @@ with map_col:
     m = folium.Map(
         location=map_center, 
         zoom_start=11, 
-        tiles="https://stadiamaps.com{z}/{x}/{y}{r}.png",
+        tiles="https://stadiamaps.com{z}/{x}/{y}.png?api_key=",
         attr='&copy; <a href="https://stadiamaps.com">Stadia Maps</a> &copy; <a href="https://openmaptiles.org">OpenMapTiles</a> &copy; <a href="https://openstreetmap.org">OpenStreetMap</a>'
     )
     
