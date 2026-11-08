@@ -227,16 +227,22 @@ with chart_col:
     st.plotly_chart(fig, use_container_width=True)
 
 with map_col:
-    st.markdown(f"##### 🗺️ CartoDB Dark Matter Geospatial Grid Map")
+    st.markdown(f"##### 🗺️ Operational Geospatial Grid Map")
     
-    # Premium Dark Matter Tile Layer Integration
+    # 100% Free Open-Source Dark Map configuration (Wipes away API Key Required warnings)
     map_center = active_node_data["coords"]
-    m = folium.Map(location=map_center, zoom_start=11, tiles="CartoDB dark_matter")
+    m = folium.Map(
+        location=map_center, 
+        zoom_start=11, 
+        tiles="https://{s}://{z}/{x}/{y}{r}.png",
+        attr='&copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors &copy; <a href="https://carto.com">CARTO</a>'
+    )
     
-    # Neon pulsing marker element
+    # Custom vibrant indicator marker layer
     folium.CircleMarker(
-        location=map_center, radius=12, popup=f"{selected_city} Threat Matrix Alert Node",
+        location=map_center, radius=12, popup=f"{selected_city} Threat Node",
         color="#00F5C4", fill=True, fill_color="#00FFFF", fill_opacity=0.6
     ).add_to(m)
     
-    st_folium(m, width=650, height=400, key=f"dark_map_viewport_{selected_city.lower().replace(' ', '_')}")
+    st_folium(m, width=650, height=400, key=f"dark_map_viewport_sync_{selected_city.lower().replace(' ', '_')}")
+
