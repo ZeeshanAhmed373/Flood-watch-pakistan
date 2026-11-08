@@ -95,7 +95,7 @@ st.sidebar.markdown("""
 """, unsafe_allow_html=True)
 
 st.sidebar.header("🌍 National Matrix")
-# 4. Regional Climate Database Matrix
+# 4. Regional Climate Database Matrix (Valid data filled for hydro_flow vectors)
 pakistan_cities_db = {
     "Islamabad Capital Territory": {
         "coords": [33.6844, 73.0479], "risk": "MODERATE", "risk_color": "#F59E0B", "sar": "STANDBY", 
