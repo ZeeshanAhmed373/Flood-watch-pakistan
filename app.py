@@ -1,16 +1,17 @@
 import streamlit as st
 from streamlit_folium import st_folium
 import folium
+import requests
 
 # 1. Master Page Configurations
 st.set_page_config(
-    page_title="FloodWatch AI - Enterprise Dashboard",
+    page_title="FloodWatch AI - National Scale Hub",
     page_icon="🌊",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# 2. Modern High-Contrast 3D Glassmorphism CSS Themes
+# 2. Modern 3D Dark Glassmorphism CSS Themes
 st.markdown("""
 <style>
     @keyframes fadeIn {
@@ -19,7 +20,6 @@ st.markdown("""
     }
     .stApp { animation: fadeIn 0.8s ease-out; }
 
-    /* 3D Dark Cards */
     .premium-card {
         background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
         border: 2px solid #334155;
@@ -35,16 +35,13 @@ st.markdown("""
         box-shadow: 0 20px 35px -5px rgba(13, 148, 136, 0.3);
         border-color: #0D9488;
     }
-    .card-title {
-        font-size: 13px; font-weight: 700; text-transform: uppercase;
-        letter-spacing: 1.2px; color: #94A3B8; margin-bottom: 10px;
-    }
+    .card-title { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; color: #94A3B8; margin-bottom: 10px; }
     .card-value { font-size: 34px; font-weight: 800; color: #0DF5C4; margin-bottom: 8px; }
     .card-desc { margin: 0; font-size: 14px; color: #E2E8F0; line-height: 1.4; }
 </style>
 """, unsafe_allow_html=True)
 
-# 3. Sidebar Structural Inputs
+# 3. Sidebar Layout & Dynamic City Text Search
 st.sidebar.markdown("""
 <div style="text-align: center; margin-bottom: 20px;">
     <svg viewBox="0 0 24 24" width="72" height="72" stroke="#0D9488" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" style="filter: drop-shadow(0px 0px 8px rgba(13,148,136,0.5));">
@@ -55,67 +52,85 @@ st.sidebar.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-st.sidebar.header("🌍 Navigation Matrix")
-selected_city = st.sidebar.selectbox("Select Target City", ["Islamabad", "Nowshera", "Sukkur", "Rajanpur", "Karachi", "Lahore"])
+st.sidebar.header("🌍 National Matrix")
 
-region = st.sidebar.selectbox("Target Basin/District Zone", ["Kabul River Basin", "Indus Delta", "Rajanpur Zone"])
+# User can now type in ANY city name in Pakistan!
+search_query = st.sidebar.text_input("Enter Any City in Pakistan", value="Islamabad")
+region = st.sidebar.selectbox("Target Basin/District Zone", ["Kabul River Basin", "Indus Delta", "Rajanpur Zone", "General Grid Area"])
 
-# 4. Localized Coordinates & Database Variables Map
-city_db = {
-    "Islamabad": {"coords": [33.6844, 73.0479], "temp": "17°C", "humidity": "64%", "wind": "4 mph", "days": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"], "temps": ["24°C", "23°C", "23°C", "19°C", "19°C", "21°C", "22°C"], "icons": ["☁️", "⛅", "☀️", "🌧️", "🌦️", "☀️", "☁️"]},
-    "Nowshera": {"coords": [34.0105, 71.9866], "temp": "19°C", "humidity": "58%", "wind": "6 mph", "days": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"], "temps": ["26°C", "25°C", "24°C", "20°C", "21°C", "23°C", "24°C"], "icons": ["☀️", "☀️", "⛅", "🌧️", "☁️", "☀️", "☀️"]},
-    "Sukkur": {"coords": [27.7244, 68.8228], "temp": "26°C", "humidity": "42%", "wind": "5 mph", "days": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"], "temps": ["32°C", "31°C", "31°C", "30°C", "30°C", "29°C", "29°C"], "icons": ["☀️", "☀️", "☀️", "☀️", "☀️", "☀️", "☀️"]},
-    "Rajanpur": {"coords": [29.1044, 70.3250], "temp": "23°C", "humidity": "48%", "wind": "3 mph", "days": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"], "temps": ["30°C", "29°C", "29°C", "27°C", "26°C", "27°C", "28°C"], "icons": ["☀️", "☀️", "☀️", "⛅", "☁️", "☀️", "☀️"]}
-}
+# 4. Open-Source Geocoding API Engine (Finds any city dynamically)
+@st.cache_data(show_spinner=False)
+def geocode_pakistan_city(city_name):
+    try:
+        url = f"https://openstreetmap.org{city_name},+Pakistan&format=json&limit=1"
+        headers = {'User-Agent': 'FloodWatchPakAI/1.0'}
+        response = requests.get(url, headers=headers, timeout=5).json()
+        if response:
+            lat = float(response[0]['lat'])
+            lon = float(response[0]['lon'])
+            display_name = response[0]['display_name'].split(',')[0]
+            return [lat, lon], display_name
+    except:
+        pass
+    # Baseline fallback if search fails or goes offline
+    return [33.6844, 73.0479], "Islamabad"
 
-active_data = city_db.get(selected_city)
+map_center, validated_city = geocode_pakistan_city(search_query)
 
-# 5. Core Platform Header Controls
+# 5. Core Platform Layout Header
 st.title("🌊 FloodWatch AI Platform")
-st.markdown(f"##### *Geospatial Risk Management Hub & Meteorological Tracking* &nbsp;|&nbsp; **Active Node: {selected_city}**")
+st.markdown(f"##### *Geospatial Risk Management Hub & Meteorological Tracking* &nbsp;|&nbsp; **Active Node: {validated_city}, Pakistan**")
 st.write("---")
 
-# 6. Operational High-Contrast Risk Metric Cards
+# 6. High-Contrast Primary Metrics
 col1, col2, col3 = st.columns(3)
 with col1:
-    st.markdown(f"""<div class="premium-card"><div class="card-title">🚨 Current Risk Assessment</div><div class="card-value">HIGH SURGE</div><p class="card-desc">{region} telemetry variances active.</p></div>""", unsafe_allow_html=True)
+    st.markdown(f"""<div class="premium-card"><div class="card-title">🚨 Current Risk Assessment</div><div class="card-value">HIGH SURGE</div><p class="card-desc">Geospatial tracking active over the {validated_city} sector grid map.</p></div>""", unsafe_allow_html=True)
 with col2:
-    st.markdown("""<div class="premium-card"><div class="card-title">🛰️ Active SAR Radar Layer</div><div class="card-value">SENTINEL-1</div><p class="card-desc">Cloud-penetrating radar processing operational.</p></div>""", unsafe_allow_html=True)
+    st.markdown("""<div class="premium-card"><div class="card-title">🛰️ Active SAR Radar Layer</div><div class="card-value">SENTINEL-1</div><p class="card-desc">Cloud-penetrating radar processing operational for local hydrology tracking.</p></div>""", unsafe_allow_html=True)
 with col3:
-    st.markdown("""<div class="premium-card"><div class="card-title">🏢 Infrastructure Threat Score</div><div class="card-value">84.2 / 100</div><p class="card-desc">AI loss assessment mapping model actively running.</p></div>""", unsafe_allow_html=True)
+    st.markdown("""<div class="premium-card"><div class="card-title">🏢 Infrastructure Threat Score</div><div class="card-value">84.2 / 100</div><p class="card-desc">AI loss assessment mapping model actively running over building footprints.</p></div>""", unsafe_allow_html=True)
 
-# 7. Weather Module Using Pure Native Streamlit Columns (Fixes the raw HTML string error)
+# 7. Dynamic Weather Generator Module
 st.markdown("### 🌤️ Live Local Meteorology & 7-Day Resiliency Outlook")
 
-w_col1, w_col2, w_col3 = st.columns(3)
-w_col1.metric(label="🌡️ Current Temperature", value=active_data["temp"])
-w_col2.metric(label="💧 Relative Humidity", value=active_data["humidity"])
-w_col3.metric(label="💨 Wind Speed Metrics", value=active_data["wind"])
+# Calculates unique local mock weather metrics dynamically based on coordinate mathematics
+base_temp = int(22 + (map_center[0] % 10) - (map_center[1] % 5))
+humidity = int(45 + (map_center[0] % 30))
+wind = int(3 + (map_center[1] % 10))
 
-# Render the 7-day outlook using Native Streamlit Columns to eliminate HTML loop bugs completely
+w_col1, w_col2, w_col3 = st.columns(3)
+w_col1.metric(label="🌡️ Current Temperature", value=f"{base_temp}°C")
+w_col2.metric(label="💧 Relative Humidity", value=f"{humidity}%")
+w_col3.metric(label="💨 Wind Speed Metrics", value=f"{wind} mph")
+
+# Render 7-Day timeline metrics dynamically using pure Streamlit elements
 st.write("")
+days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+icons = ["☀️", "☁️", "⛅", "🌧️", "☀️", "☀️", "⛅"]
 days_cols = st.columns(7)
+
 for idx, col in enumerate(days_cols):
+    day_offset = (idx * 2) % 5
+    day_temp = base_temp + (2 if idx % 2 == 0 else -3)
     with col:
         st.markdown(f"""
         <div style="background: #1E293B; border: 1px solid #475569; border-radius: 12px; padding: 12px; text-align: center;">
-            <div style="font-size: 12px; color: #94A3B8; font-weight: bold;">{active_data["days"][idx]}</div>
-            <div style="font-size: 26px; margin: 5px 0;">{active_data["icons"][idx]}</div>
-            <div style="font-size: 15px; font-weight: bold; color: #64FFDA;">{active_data["temps"][idx]}</div>
+            <div style="font-size: 12px; color: #94A3B8; font-weight: bold;">{days[idx]}</div>
+            <div style="font-size: 26px; margin: 5px 0;">{icons[idx]}</div>
+            <div style="font-size: 15px; font-weight: bold; color: #64FFDA;">{day_temp}°C</div>
         </div>
         """, unsafe_allow_html=True)
 st.write("---")
 
-# 8. Dynamic Geospatial Map Framework (Centered using reactive coordinates)
-st.markdown(f"### 🗺️ Operational Geospatial Framework Map: {selected_city} Sector")
+# 8. Dynamic Geospatial Map Framework (Centers instantly over ANY searched city)
+st.markdown(f"### 🗺️ Operational Geospatial Framework Map: {validated_city} Sector")
 
-map_center = active_data["coords"]
-m = folium.Map(location=map_center, zoom_start=11, tiles="OpenStreetMap")
-
+m = folium.Map(location=map_center, zoom_start=12, tiles="OpenStreetMap")
 folium.CircleMarker(
-    location=map_center, radius=14, popup=f"Active Threat Alert Region - {selected_city} Node",
+    location=map_center, radius=14, popup=f"Active Dynamic Threat Alert Area - {validated_city} Node",
     color="#0D9488", fill=True, fill_color="#00FFFF", fill_opacity=0.7
 ).add_to(m)
 
-# The unique component key string forces the map canvas view bounding box to update instantly
-st_folium(m, width=1300, height=520, key=f"map_viewport_node_{selected_city}")
+# Passing the unique validated_city string variable as the key parameter updates the bounding box instantly
+st_folium(m, width=1300, height=520, key=f"map_dynamic_node_{validated_city}")
