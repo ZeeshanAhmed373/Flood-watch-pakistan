@@ -95,40 +95,53 @@ st.sidebar.markdown("""
 """, unsafe_allow_html=True)
 
 st.sidebar.header("🌍 National Matrix")
-# 4. Regional Climate Database Matrix (With full numerical data arrays restored)
-pakistan_cities_db = {
-    "Islamabad Capital Territory": {
-        "coords": [33.6844, 73.0479], "risk": "MODERATE", "risk_color": "#F59E0B", "sar": "STANDBY", 
-        "threat": "22.4 / 100", "desc": "Urban drainage channels operating at baseline thresholds.", "has_rain": True,
-        "hydro_flow":,
-        "temp": "17°C", "humidity": "64%", "wind": "4 mph", "temps": ["24°C","23°C","23°C","19°C","19°C","21°C","22°C"], "icons": ["☁️","⛅","☀️","🌧️","🌦️","☀️","☁️"]
-    },
-    "Nowshera (KPK River Node)": {
-        "coords": [34.0105, 71.9866], "risk": "CRITICAL SURGE", "risk_color": "#EF4444", "sar": "ACTIVE FEED", 
-        "threat": "88.6 / 100", "desc": "Kabul River discharge tracking near peak boundaries.", "has_rain": True,
-        "hydro_flow":,
-        "temp": "19°C", "humidity": "58%", "wind": "6 mph", "temps": ["26°C","25°C","24°C","20°C","21°C","23°C","24°C"], "icons": ["☀️","☀️","⛅","🌧️","☁️","☀️","☀️"]
-    },
-    "Sukkur (Sindh Indus Node)": {
-        "coords": [27.7244, 68.8228], "risk": "ELEVATED ALERT", "risk_color": "#F59E0B", "sar": "ACTIVE FEED", 
-        "threat": "61.2 / 100", "desc": "Sukkur Barrage telemetry tracking normal baseline variations.", "has_rain": False,
-        "hydro_flow":,
-        "temp": "26°C", "humidity": "42%", "wind": "5 mph", "temps": ["32°C","31°C","31°C","30°C","30°C","29°C","29°C"], "icons": ["☀️","☀️","☀️","☀️","☀️","☀️","☀️"]
-    },
-    "Rajanpur (South Punjab)": {
-        "coords": [29.1044, 70.3250], "risk": "HIGH RISK", "risk_color": "#EF4444", "sar": "MONITORING", 
-        "threat": "79.4 / 100", "desc": "Hill torrent tracking layers monitoring active catchment vectors.", "has_rain": False,
-        "hydro_flow":,
-        "temp": "23°C", "humidity": "48%", "wind": "3 mph", "temps": ["30°C","29°C","29°C","27°C","26°C","27°C","28°C"], "icons": ["☀️","☀️","☀️","⛅","☁️","☀️","☀️"]
-    }
-}
 
-selected_city = st.sidebar.selectbox("Select Active Operational Node", list(pakistan_cities_db.keys()))
+# 4. Regional Selection Dropdown Configurations
+selected_city = st.sidebar.selectbox("Select Active Operational Node", ["Islamabad Capital Territory", "Nowshera (KPK River Node)", "Sukkur (Sindh Indus Node)", "Rajanpur (South Punjab)"])
 region = st.sidebar.selectbox("Target Basin Zone", ["Kabul River Basin", "Indus Delta", "Rajanpur Grid"])
-active_node_data = pakistan_cities_db[selected_city]
+# 5. Flattened Architecture Mapping Logic (Bypasses nested dictionary structure bugs)
+if selected_city == "Islamabad Capital Territory":
+    map_center = [33.6844, 73.0479]
+    risk, risk_color, sar, threat = "MODERATE", "#F59E0B", "STANDBY", "22.4 / 100"
+    desc = "Urban drainage channels operating at baseline thresholds."
+    has_rain = True
+    hydro_flow = [120, 145, 132, 210, 245, 190, 160]
+    temp, humidity, wind = "17°C", "64%", "4 mph"
+    temps = ["24°C","23°C","23°C","19°C","19°C","21°C","22°C"]
+    icons = ["☁️","⛅","☀️","🌧️","🌦️","☀️","☁️"]
 
-# 5. Dynamic 3D Precipitation Layer Logic
-if active_node_data["has_rain"]:
+elif selected_city == "Nowshera (KPK River Node)":
+    map_center = [34.0105, 71.9866]
+    risk, risk_color, sar, threat = "CRITICAL SURGE", "#EF4444", "ACTIVE FEED", "88.6 / 100"
+    desc = "Kabul River discharge tracking near peak boundaries."
+    has_rain = True
+    hydro_flow = [450, 510, 480, 680, 712, 640, 590]
+    temp, humidity, wind = "19°C", "58%", "6 mph"
+    temps = ["26°C","25°C","24°C","20°C","21°C","23°C","24°C"]
+    icons = ["☀️","☀️","⛅","🌧️","☁️","☀️","☀️"]
+
+elif selected_city == "Sukkur (Sindh Indus Node)":
+    map_center = [27.7244, 68.8228]
+    risk, risk_color, sar, threat = "ELEVATED ALERT", "#F59E0B", "ACTIVE FEED", "61.2 / 100"
+    desc = "Sukkur Barrage telemetry tracking normal baseline variations."
+    has_rain = False
+    hydro_flow = [320, 340, 310, 450, 490, 410, 380]
+    temp, humidity, wind = "26°C", "42%", "5 mph"
+    temps = ["32°C","31°C","31°C","30°C","30°C","29°C","29°C"]
+    icons = ["☀️","☀️","☀️","☀️","☀️","☀️","☀️"]
+
+else: # Rajanpur (South Punjab)
+    map_center = [29.1044, 70.3250]
+    risk, risk_color, sar, threat = "HIGH RISK", "#EF4444", "MONITORING", "79.4 / 100"
+    desc = "Hill torrent tracking layers monitoring active catchment vectors."
+    has_rain = False
+    hydro_flow = [210, 230, 205, 315, 340, 290, 260]
+    temp, humidity, wind = "23°C", "48%", "3 mph"
+    temps = ["30°C","29°C","29°C","27°C","26°C","27°C","28°C"]
+    icons = ["☀️","☀️","☀️","⛅","☁️","☀️","☀️"]
+
+# 6. Dynamic 3D Precipitation Layer Logic
+if has_rain:
     st.markdown("""
     <div class="rain-canvas">
         <div class="drop d1"></div><div class="drop d2"></div><div class="drop d3"></div>
@@ -136,22 +149,22 @@ if active_node_data["has_rain"]:
     </div>
     """, unsafe_allow_html=True)
 
-# 6. Primary Platform Layout Headers
+# 7. Primary Platform Layout Headers
 st.title("🌊 FloodWatch AI Hub")
 st.markdown(f"##### *Geospatial Risk Management Hub & Meteorological Tracking* &nbsp;|&nbsp; **Active Sector: {selected_city}**")
 st.write("---")
 
-# 7. Redesigned Compact Metrics with Pulsing Status Rings
+# 8. Compact Metrics with Pulsing Status Rings
 col1, col2, col3 = st.columns(3)
 with col1:
     st.markdown(f"""
     <div class="premium-card">
         <div class="card-title">🚨 Current Risk Assessment</div>
         <div class="card-value-flex">
-            <span class="pulse-ring" style="background-color: {active_node_data['risk_color']}; box-shadow: 0 0 0 0 {active_node_data['risk_color']};"></span>
-            <span class="card-value" style="color: {active_node_data['risk_color']};">{active_node_data['risk']}</span>
+            <span class="pulse-ring" style="background-color: {risk_color}; box-shadow: 0 0 0 0 {risk_color};"></span>
+            <span class="card-value" style="color: {risk_color};">{risk}</span>
         </div>
-        <p class="text-description-box" style="margin-top: 6px;">{active_node_data['desc']}</p>
+        <p class="text-description-box" style="margin-top: 6px;">{desc}</p>
     </div>
     """, unsafe_allow_html=True)
 with col2:
@@ -160,7 +173,7 @@ with col2:
         <div class="card-title">🛰️ Active SAR Radar Layer</div>
         <div class="card-value-flex">
             <span class="pulse-ring" style="background-color: #64FFDA; box-shadow: 0 0 0 0 rgba(100,255,218,0.7);"></span>
-            <span class="card-value" style="color: #64FFDA;">{active_node_data['sar']}</span>
+            <span class="card-value" style="color: #64FFDA;">{sar}</span>
         </div>
         <p class="text-description-box" style="margin-top: 6px;">Copernicus Sentinel orbit telemetry aligned perfectly.</p>
     </div>
@@ -171,18 +184,18 @@ with col3:
         <div class="card-title">🏢 Infrastructure Threat Score</div>
         <div class="card-value-flex">
             <span class="pulse-ring" style="background-color: #0DF5C4; box-shadow: 0 0 0 0 rgba(13,245,196,0.7);"></span>
-            <span class="card-value" style="color: #0DF5C4;">{active_node_data['threat']}</span>
+            <span class="card-value" style="color: #0DF5C4;">{threat}</span>
         </div>
-        <p class="text-description-box" style="margin-top: 6px;">AI structural loss assessment engine scanning building assets.</p>
+        <p class="text-description-box" style="margin-top: 6px;">AI loss assessment mapping model actively rendering structural perimeters.</p>
     </div>
     """, unsafe_allow_html=True)
 
-# 8. Weather Metrics Tracker Panel
+# 9. Weather Metrics Tracker Panel
 st.markdown("### 🌤️ Local Meteorology Metrics & 7-Day Outlook")
 w_col1, w_col2, w_col3 = st.columns(3)
-w_col1.metric(label="🌡️ Current Temperature", value=active_node_data["temp"])
-w_col2.metric(label="💧 Relative Humidity", value=active_node_data["humidity"])
-w_col3.metric(label="💨 Wind Speed Metrics", value=active_node_data["wind"])
+w_col1.metric(label="🌡️ Current Temperature", value=temp)
+w_col2.metric(label="💧 Relative Humidity", value=humidity)
+w_col3.metric(label="💨 Wind Speed Metrics", value=wind)
 
 st.write("")
 days_list = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
@@ -192,13 +205,13 @@ for idx, col in enumerate(days_cols):
         st.markdown(f"""
         <div class="weather-box-container">
             <div style="font-size: 11px; color: #94A3B8; font-weight: bold;">{days_list[idx]}</div>
-            <div style="font-size: 24px; margin: 4px 0;">{active_node_data['icons'][idx]}</div>
-            <div style="font-size: 14px; font-weight: bold; color: #64FFDA;">{active_node_data['temps'][idx]}</div>
+            <div style="font-size: 24px; margin: 4px 0;">{icons[idx]}</div>
+            <div style="font-size: 14px; font-weight: bold; color: #64FFDA;">{temps[idx]}</div>
         </div>
         """, unsafe_allow_html=True)
 st.write("---")
 
-# 9. ADVANCED FEATURES: Plotly Hydro-Chart & Fixed Dark Matter Map Layouts
+# 10. ADVANCED FEATURES: Plotly Hydro-Chart & Reliable Stadia Dark Map Node
 st.markdown("### 📊 Live River Flow Water Discharge Data & Geospatial Telemetry")
 
 chart_col, map_col = st.columns(2)
@@ -208,7 +221,7 @@ with chart_col:
     
     fig = go.Figure()
     fig.add_trace(go.Scatter(
-        x=days_list, y=active_node_data["hydro_flow"],
+        x=days_list, y=hydro_flow,
         mode='lines+markers', name='Water Discharge',
         line=dict(color='#00F5C4', width=3, shape='spline'),
         fill='tozeroy', fillcolor='rgba(0, 245, 196, 0.08)',
@@ -226,7 +239,6 @@ with chart_col:
 with map_col:
     st.markdown(f"##### 🗺️ Operational Geospatial Grid Map")
     
-    map_center = active_node_data["coords"]
     m = folium.Map(
         location=map_center, 
         zoom_start=11, 
@@ -235,8 +247,8 @@ with map_col:
     )
     
     folium.CircleMarker(
-        location=map_center, radius=12, popup=f"{selected_city} Threat Node",
+        location=map_center, radius=12, popup=f"{selected_city} Active Operational Threat Node",
         color="#00F5C4", fill=True, fill_color="#00FFFF", fill_opacity=0.6
     ).add_to(m)
     
-    st_folium(m, width=650, height=400, key=f"dark_map_fixed_final_{selected_city.lower().replace(' ', '_')}_{map_center}")
+    st_folium(m, width=650, height=400, key=f"stadia_dark_map_node_{selected_city.lower().replace(' ', '_')}_{map_center}")
