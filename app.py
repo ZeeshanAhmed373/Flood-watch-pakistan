@@ -95,7 +95,7 @@ st.sidebar.markdown("""
 """, unsafe_allow_html=True)
 
 st.sidebar.header("🌍 National Matrix")
-# 4. Regional Climate Database Matrix
+# 4. Regional Climate Database Matrix (With full numerical data arrays restored)
 pakistan_cities_db = {
     "Islamabad Capital Territory": {
         "coords": [33.6844, 73.0479], "risk": "MODERATE", "risk_color": "#F59E0B", "sar": "STANDBY", 
@@ -198,7 +198,7 @@ for idx, col in enumerate(days_cols):
         """, unsafe_allow_html=True)
 st.write("---")
 
-# 9. ADVANCED FEATURES: Plotly Hydro-Chart & Reliable Stadia Dark Map Node
+# 9. ADVANCED FEATURES: Plotly Hydro-Chart & Fixed Dark Matter Map Layouts
 st.markdown("### 📊 Live River Flow Water Discharge Data & Geospatial Telemetry")
 
 chart_col, map_col = st.columns(2)
@@ -227,8 +227,6 @@ with map_col:
     st.markdown(f"##### 🗺️ Operational Geospatial Grid Map")
     
     map_center = active_node_data["coords"]
-    
-    # 100% Free Account-Free Stadia Alidade Smooth Dark Configuration Block
     m = folium.Map(
         location=map_center, 
         zoom_start=11, 
@@ -237,8 +235,8 @@ with map_col:
     )
     
     folium.CircleMarker(
-        location=map_center, radius=12, popup=f"{selected_city} Active Operational Threat Node",
+        location=map_center, radius=12, popup=f"{selected_city} Threat Node",
         color="#00F5C4", fill=True, fill_color="#00FFFF", fill_opacity=0.6
     ).add_to(m)
     
-    st_folium(m, width=650, height=400, key=f"stadia_dark_map_node_{selected_city.lower().replace(' ', '_')}_{map_center[0]}")
+    st_folium(m, width=650, height=400, key=f"dark_map_fixed_final_{selected_city.lower().replace(' ', '_')}_{map_center}")
