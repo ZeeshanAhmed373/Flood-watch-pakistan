@@ -66,7 +66,7 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# 3. Bulletproof Vector Sidebar Navigation Layout
+# 3. Vector Sidebar Navigation Layout
 st.sidebar.markdown("""
 <div style="text-align: center; margin-bottom: 20px;">
     <svg viewBox="0 0 24 24" width="72" height="72" stroke="#0D9488" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" style="filter: drop-shadow(0px 0px 8px rgba(13,148,136,0.5));">
@@ -81,7 +81,7 @@ st.sidebar.header("🌍 Navigation Matrix")
 selected_city = st.sidebar.selectbox("Select Target City", ["Islamabad", "Nowshera", "Sukkur", "Rajanpur"])
 region = st.sidebar.selectbox("Target Basin/District Zone", ["Kabul River Basin", "Indus Delta", "Rajanpur Zone"])
 
-# 4. Dynamic Mapping & Weather Matrix Configuration File Database
+# 4. Dynamic Mapping & Weather Database
 city_coordinates_db = {
     "Islamabad": {"coords": [33.6844, 73.0479], "temp": "17°C", "humidity": "64%", "wind": "4 mph", "forecast": [
         {"day": "Mon Nov 9", "icon": "☁️", "temp": "24°C / 16°C", "cond": "Cloudy"},
@@ -123,7 +123,7 @@ city_coordinates_db = {
 
 active_data = city_coordinates_db.get(selected_city)
 
-# 5. Core Platform Layout Titles
+# 5. Core Title Headers
 st.title("🌊 FloodWatch AI Platform")
 st.markdown(f"##### *Geospatial Risk Management Hub & Meteorological Tracking* &nbsp;|&nbsp; **Active Node: {selected_city}**")
 st.write("---")
@@ -155,7 +155,7 @@ with col3:
     </div>
     """, unsafe_allow_html=True)
 
-# 7. Weather Module & Clean HTML Timeline Processing
+# 7. Weather Module Display Panels
 st.markdown("### 🌤️ Live Local Meteorology & 7-Day Resiliency Outlook")
 
 w_col1, w_col2, w_col3 = st.columns(3)
@@ -166,7 +166,7 @@ with w_col2:
 with w_col3:
     st.metric(label="💨 Wind Speed Metrics", value=active_data["wind"])
 
-# Secure HTML injection string assembly
+# Build the layout template inside a SINGLE Markdown rendering call to fix the layout string bug
 timeline_html = '<div class="weather-flex-box">'
 for forecast_day in active_data["forecast"]:
     timeline_html += f"""
@@ -179,20 +179,16 @@ for forecast_day in active_data["forecast"]:
     """
 timeline_html += '</div>'
 
-# Natively display the fully rendered interactive timeline
+# CRITICAL FIX: Use st.markdown ONCE to prevent printing raw strings on your timeline container loop
 st.markdown(timeline_html, unsafe_allow_html=True)
 st.write("---")
 
-# 8. Dynamic Geospatial Map Framework (Coordinates change when you change cities)
+# 8. Dynamic Geospatial Map Framework (Refreshes instantly when you swap city widget states)
 st.markdown(f"### 🗺️ Operational Geospatial Framework Map: {selected_city} Sector")
 
-# Extract dynamic tracking center from active database selections
 map_center = active_data["coords"]
-
-# Render map tile instance tied directly to the variable center vector
 m = folium.Map(location=map_center, zoom_start=11, tiles="OpenStreetMap")
 
-# Setup targeted localized indicator markers
 folium.CircleMarker(
     location=map_center,
     radius=14,
@@ -203,5 +199,5 @@ folium.CircleMarker(
     fill_opacity=0.7
 ).add_to(m)
 
-# Expose Map Component natively to user browser window
-st_folium(m, width=1300, height=520, key=f"map_{selected_city}")
+# CRITICAL FIX: Pass an explicit dynamic key string to force st_folium to re-render the view box dynamically
+st_folium(m, width=1300, height=520, key=f"map_render_{selected_city}")
