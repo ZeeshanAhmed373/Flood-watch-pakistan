@@ -95,30 +95,30 @@ st.sidebar.markdown("""
 """, unsafe_allow_html=True)
 
 st.sidebar.header("🌍 National Matrix")
-# 4. Regional Climate Database Matrix (Valid data filled for hydro_flow vectors)
+# 4. Regional Database Matrix (Numbers successfully filled)
 pakistan_cities_db = {
     "Islamabad Capital Territory": {
         "coords": [33.6844, 73.0479], "risk": "MODERATE", "risk_color": "#F59E0B", "sar": "STANDBY", 
         "threat": "22.4 / 100", "desc": "Urban drainage channels operating at baseline thresholds.", "has_rain": True,
-        "hydro_flow":,
+        "hydro_flow": [120, 140, 135, 190, 220, 185, 160],
         "temp": "17°C", "humidity": "64%", "wind": "4 mph", "temps": ["24°C","23°C","23°C","19°C","19°C","21°C","22°C"], "icons": ["☁️","⛅","☀️","🌧️","🌦️","☀️","☁️"]
     },
     "Nowshera (KPK River Node)": {
         "coords": [34.0105, 71.9866], "risk": "CRITICAL SURGE", "risk_color": "#EF4444", "sar": "ACTIVE FEED", 
         "threat": "88.6 / 100", "desc": "Kabul River discharge tracking near peak boundaries.", "has_rain": True,
-        "hydro_flow":,
+        "hydro_flow": [450, 510, 490, 680, 720, 640, 590],
         "temp": "19°C", "humidity": "58%", "wind": "6 mph", "temps": ["26°C","25°C","24°C","20°C","21°C","23°C","24°C"], "icons": ["☀️","☀️","⛅","🌧️","☁️","☀️","☀️"]
     },
     "Sukkur (Sindh Indus Node)": {
         "coords": [27.7244, 68.8228], "risk": "ELEVATED ALERT", "risk_color": "#F59E0B", "sar": "ACTIVE FEED", 
         "threat": "61.2 / 100", "desc": "Sukkur Barrage telemetry tracking normal baseline variations.", "has_rain": False,
-        "hydro_flow":,
+        "hydro_flow": [280, 295, 310, 305, 320, 315, 290],
         "temp": "26°C", "humidity": "42%", "wind": "5 mph", "temps": ["32°C","31°C","31°C","30°C","30°C","29°C","29°C"], "icons": ["☀️","☀️","☀️","☀️","☀️","☀️","☀️"]
     },
     "Rajanpur (South Punjab)": {
         "coords": [29.1044, 70.3250], "risk": "HIGH RISK", "risk_color": "#EF4444", "sar": "MONITORING", 
         "threat": "79.4 / 100", "desc": "Hill torrent tracking layers monitoring active catchment vectors.", "has_rain": False,
-        "hydro_flow":,
+        "hydro_flow": [190, 210, 240, 310, 340, 290, 260],
         "temp": "23°C", "humidity": "48%", "wind": "3 mph", "temps": ["30°C","29°C","29°C","27°C","26°C","27°C","28°C"], "icons": ["☀️","☀️","☀️","⛅","☁️","☀️","☀️"]
     }
 }
